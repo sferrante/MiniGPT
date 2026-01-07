@@ -27,24 +27,22 @@ The model is trained on **Project Gutenberg** text (Jane Austen novels), then an
 
 ## Results
 
-### Induction-head probe: repeated-prefix vs randomized-prefix prompts
+### Induction-head probe: repeat vs control prompts
 
 To test for induction behavior, we compare two types of prompts:
 
-- **Repeated-prefix (control):**  
-  `[base, base, base, base]`  
-  The same token sequence `base` is repeated multiple times. If the model has an induction head, it can learn the pattern “when I see a repeated context, copy the token that followed it last time.”
+- **Repeat (r):** `[base, base, base, base]`  
+  The same token sequence `base` is repeated multiple times.
+- **Control (c):** `[base, rand1, rand2, rand3]`  
+  Only the first chunk is `base`; the remaining chunks are unrelated random sequences.
 
-- **Randomized-prefix (baseline):**  
-  `[base, rand1, rand2, rand3]`  
-  Only the first chunk is `base`; the rest are unrelated random chunks. This removes the repeated-context signal while keeping prompt length and token statistics similar.
+We compute an induction-style attention score **A(r)** on repeat prompts and **A(c)** on control prompts, then plot **A(r) − A(c)**.  
+This difference isolates attention that is specifically driven by repeated context (induction-like copying), while controlling for generic attention structure and prompt length.
 
-For each position, we measure an induction-style attention score \(A(\cdot)\): the amount of attention mass assigned to the **“copy-from-previous-occurrence”** location.  
-In practice, an induction head shows up as a bright stripe on the **+1 off-diagonal** of the attention matrix: token \(t\) attends strongly to \(t'\) where \(t'\) is the previous occurrence of the matching context, shifted by one (so it can copy the *next* token).
+**How to read the figures**
+1) **Attention heatmaps:** look for a bright stripe on the **+1 off-diagonal** in the *zoomed* plots. A stronger stripe indicates more induction-like “copy next token from the previous occurrence” behavior.
+2) **Head ablations:** we ablate individual heads at inference time and recompute the induction metric (reported as \(\Delta\)). Heads that cause a large drop in \(\Delta\) are candidates that causally support induction.
 
-The plots below visualize this in two ways:
-1) **Attention heatmaps:** qualitative evidence of the +1 off-diagonal stripe (stronger = more induction-like copying).
-2) **Head ablations:** quantitative evidence that specific heads causally support the behavior. We compute a metric (e.g., \(\Delta\)) before/after ablating a head; a large drop indicates that head contributes materially to induction.
 
 ---
 
