@@ -15,7 +15,8 @@ def diag_means(M, max_off=5):
     return out
 
 def plot_delta_heads(
-    idx_rep, idx_ctl, attn_rep, attn_ctl, itos, zoom, # zoom=True plots the k->k-1 block; zoom=False plots full A[h]
+    idx_rep, idx_ctl, attn_rep, attn_ctl, itos, zoom, 
+    title, # zoom=True plots the k->k-1 block; zoom=False plots full A[h]
     L=16, k=1,   
     cmap="viridis",
     print_block=1,
@@ -43,14 +44,17 @@ def plot_delta_heads(
             ax = axes[b, h]
 
             if zoom == False:
+                zoomname = "full"
                 M = A[h][L:4*L, L:4*L]
             if zoom == True:
+                zoomname = "zoom"
                 # k->k-1 block (queries in chunk k, keys in chunk k-1)
                 q0, q1 = k*L, (k+1)*L
                 p0, p1 = (k-1)*L, k*L
                 M = A[h, q0:q1, p0:p1]
 
             v = np.max(np.abs(M)) + 1e-12
+            ax.set_title(title, size=15)
             ax.imshow(M, cmap=cmap, vmin=-v, vmax=v, aspect="auto", origin="upper")
             ax.set_title(f"Block {b}, Head {h}", fontsize=9)
             ax.set_xticks([]); ax.set_yticks([])
@@ -66,7 +70,8 @@ def plot_delta_heads(
             #     print(f"[b={b}, h={h}] Δ induction diag (offset=-(L-1)): {np.diagonal(A[h], offset=-(L-1)).mean():.6g}")
 
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig(f'Plots/Attention_HeatMap_{zoomname}_{title}.png')
 
 
 
