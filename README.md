@@ -1,42 +1,28 @@
  # MiniGPT 
 
-This project includes a small (1-10M parameters) GPT-style transfromer in PyTorch (without using nn.transformer) trained on Project Gutenberg text.  
-Training is followed by a characterization of its induction heads through attention heatmaps and head ablations. 
+A small (1-10M parameters) GPT-style language model in **PyTorch** from scratch.
+The model is trained on **Project Gutenberg** text (Jane Austen novels), then analyzed with **mechanistic interpretability** tools—attention heatmaps and targeted head ablations—to identify and validate **induction heads**.
 
 ---
+
+## Overview
+
+- **Model:** decoder-only GPT-style Transformer (token+pos embeddings, causal multi-head self-attention, MLP blocks, residuals/LayerNorm) implemented from scratch in PyTorch (no `nn.Transformer`).
+- **Training:** trained on public-domain Project Gutenberg text (Jane Austen novels).
+- **Analysis:** mechanistic interpretability study of **induction heads** using attention heatmaps and targeted head ablations (measuring loss impact).
+
+--- 
 
 ## Contents
 
-- `TransformerModel.py` — Includes definitions of self-attention with causal masking, the transformer block, and the GPT. 
-- `MiniGPT.ipynb` — Loads Project Gutenberg data and transformer model file, defines tokenization, and trains the GPT.  
-- `InductionHeads.ipynb` — Trains/evaluates a neural “next-step” policy on the generated proof dataset; can be used to test neural-guided proof search.   
-- `utils.py` — Shared utilities and helper functions for plotting, computing cross-entropy with head ablations, and more. 
-- `Data/` — Stored datasets (`.txt`) used by the notebooks (three Jane Austen novels).  
-- `Plots/` — Plots of attention heatmaps and head ablations for different sized models. 
+- `TransformerModel.py` — Causal self-attention (masking), Transformer blocks, and the GPT model definition.
+- `MiniGPT.ipynb` —  Data loading + tokenization, training loop, evaluation, and checkpoint saving.
+- `InductionHeads.ipynb` — Induction-head investigation: attention heatmaps, head ablations, and quantitative loss/behavior checks.
+- `utils.py` — Shared helpers (plotting, ablation utilities, cross-entropy evaluation, etc.).
+- `Data/` — Training text (`.txt`) from Project Gutenberg (three Jane Austen novels).
+- `Plots/` — Generated attention heatmaps + ablation visualizations for different model sizes.
+- `miniGPT_2Mparams.pt` — Example saved checkpoint (model weights + config) for a 2M-parameter run.
 
----
-
-## Background
-
-Classical symbolic theorem provers are reliable but can be slow because search branching explodes.
-A common hybrid idea is: keep the symbolic verifier (so every step is checkable), but learn a neural policy that proposes the most promising next rule/action.
-
-This repo implements that loop for *propositional logic*:
-1) generate shortest proof traces with a symbolic prover (Z3 + custom rules),
-2) train a neural network to imitate the next proof step,
-3) use the neural net to guide proof search.
-
----
-
-## Model architectures
-
-This repo compares three next-step predictors:
-
-- **MLP:** flattens (known formulas + goal) into a single vector and predicts the next rule/formula.
-- **Deep Sets:** permutation-invariant over the set of known formulas, then conditions on the goal.
-- **Transformer (encoder-only):** treats the known formulas as tokens and appends the goal as the final token.
-  We use positional encoding **only on the final token (the goal)** so the model can distinguish “goal” from the unordered
-  set of known formulas, while keeping the known-formula tokens effectively order-agnostic.
 
 
 ---
