@@ -55,7 +55,7 @@ The plots below visualize this in two ways:
 
 ![2M attention heatmap](Plots/Attention_HeatMap_full_MiniGPT-2M.png)
 
-**5.6M Parameters**
+**5.6M Parameters**:
 
 ![5.6M attention heatmap](Plots/Attention_HeatMap_full_MiniGPT-5p6M.png)
 
@@ -79,14 +79,3 @@ The ablation plots show how \(\Delta\) changes when a head is removed: heads tha
 ![5.6M head ablation impact](Plots/HeadAblation_HeatMap_MiniGPT-5p6M.png)
 
 
-## Installation
-
-```bash
-git clone https://github.com/sferrante/Neuro-Symbolic-Reasoning.git
-cd Neuro-Symbolic-Reasoning
-
-pip install numpy
-pip install matplotlib
-pip install sklearn
-pip install z3-solver
-pip install torch --index-url https://download.pytorch.org/whl/cpu
