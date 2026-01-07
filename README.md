@@ -58,11 +58,11 @@ This difference isolates attention that is specifically driven by repeated conte
 ![5.6M attention heatmap](Plots/Attention_HeatMap_full_MiniGPT-5p6M.png)
 
 <!-- Zoomed attention heatmaps (look for +1 off-diagonal stripe) -->
-**2M Parameters**:
+**2M Parameters (zoomed)**:
 
 ![2M zoomed attention heatmap](Plots/Attention_HeatMap_zoom_MiniGPT-2M.png)
 
-**5.6M Parameters**:
+**5.6M Parameters (zoomed)**:
 
 ![5.6M zoomed attention heatmap](Plots/Attention_HeatMap_zoom_MiniGPT-5p6M.png)
 
