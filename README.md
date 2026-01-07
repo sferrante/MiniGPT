@@ -51,15 +51,21 @@ The plots below visualize this in two ways:
 ### Attention patterns (2M vs 5.6M)
 
 <!-- Full attention heatmaps -->
-**2M Parameters**
+**2M Parameters**: 
+
 ![2M attention heatmap](Plots/Attention_HeatMap_full_MiniGPT-2M.png)
+
 **5.6M Parameters**
+
 ![5.6M attention heatmap](Plots/Attention_HeatMap_full_MiniGPT-5p6M.png)
 
 <!-- Zoomed attention heatmaps (look for +1 off-diagonal stripe) -->
-**2M Parameters**
+**2M Parameters**:
+
 ![2M zoomed attention heatmap](Plots/Attention_HeatMap_zoom_MiniGPT-2M.png)
-**5.6M Parameters**
+
+**5.6M Parameters**:
+
 ![5.6M zoomed attention heatmap](Plots/Attention_HeatMap_zoom_MiniGPT-5p6M.png)
 
 ---
