@@ -1,7 +1,7 @@
  # MiniGPT 
 
 A small (1-10M parameters) GPT-style language model in **PyTorch** from scratch.
-The model is trained on **Project Gutenberg** text (Jane Austen novels), then analyzed with **mechanistic interpretability** tools—attention heatmaps and targeted head ablations—to identify and validate **induction heads**.
+The model is trained on **Project Gutenberg** text (Jane Austen novels), then analyzed with **mechanistic interpretability** tools (attention heatmaps and targeted head ablations) to identify and validate **induction heads**.
 
 ---
 
@@ -26,6 +26,24 @@ The model is trained on **Project Gutenberg** text (Jane Austen novels), then an
 ---
 
 ## Results
+
+### Attention Heatmaps
+
+Below we plot "Attention Heatmaps" for various excerpts from the Jane Austen books. These are shown as 2d plots of cross-token attention; intuitively one can think of it as the degree to which different words "couple" to each other. 
+
+Take a random excerpt from the Jane Austen books: 
+
+" arguments with which you have supported this extraordinary application have been as frivolous as the application was ill - judged . you have widely mistaken my character , if you think i " 
+
+The attention heatmaps of this single excerpt are shown below. 
+
+![2M attention heatmap](Plots/Attention_HeatMap_Single_MiniGPT-2M.png)
+
+Notice in all plots, the upper right triangle is 0. This is because attention is causal. In the phrase "the brown dog..", "dog" can attend to "brown", since "brown" comes before "dog" in the sentence. But "brown" cannot attend to "dog", since "dog" comes after.  
+
+Now consider Block 3, Head 3. There is a clear vertical stripe that is brighter than the rest. This corresponds to the token "judged" in the word "ill-judged". The meaning of a bright vertical stripe in this plot is that this token "couples" to the most other tokens in the sentence. This makes sense since "judged" holds weight in the example sentence, since the credibility of the "application" being referred to (which seems to be the main subject of the sentence) sharply changes at that token.  
+
+
 
 ### Induction-head probe: repeat vs control prompts
 
